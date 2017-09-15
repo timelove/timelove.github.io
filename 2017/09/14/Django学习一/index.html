@@ -1,0 +1,827 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="每天进步一点！" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="前言： 最近 python 语言在编程界的受欢迎力度不减，长期稳居编程语言前 5 。而 python 在欧美国家，是拿来作为入门级编程语言。python 不仅可以用来编写传统 WEB 开发，GUI 应用开发，也可以用到现在主流的数据分析，以及人工智能方向，可谓是一个多功能型的语言。而本次学习，主要是以 Web 开发为主。 打好学习 pyhton 的基础，为以后的机器学习做准备。 Python 之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django学习一">
+<meta property="og:url" content="http://chicbian.com/2017/09/14/Django学习一/index.html">
+<meta property="og:site_name" content="ChicBian的博客">
+<meta property="og:description" content="前言： 最近 python 语言在编程界的受欢迎力度不减，长期稳居编程语言前 5 。而 python 在欧美国家，是拿来作为入门级编程语言。python 不仅可以用来编写传统 WEB 开发，GUI 应用开发，也可以用到现在主流的数据分析，以及人工智能方向，可谓是一个多功能型的语言。而本次学习，主要是以 Web 开发为主。 打好学习 pyhton 的基础，为以后的机器学习做准备。 Python 之">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fjk80w7wpuj2095088jrx.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjk8r5zueij20sw0frgns.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjkars69svj20lz06cglt.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjkaw61ncij20p80b9wfo.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjkc212jk9j204x0dat8x.jpg">
+<meta property="og:updated_time" content="2017-09-15T09:32:12.477Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django学习一">
+<meta name="twitter:description" content="前言： 最近 python 语言在编程界的受欢迎力度不减，长期稳居编程语言前 5 。而 python 在欧美国家，是拿来作为入门级编程语言。python 不仅可以用来编写传统 WEB 开发，GUI 应用开发，也可以用到现在主流的数据分析，以及人工智能方向，可谓是一个多功能型的语言。而本次学习，主要是以 Web 开发为主。 打好学习 pyhton 的基础，为以后的机器学习做准备。 Python 之">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fjk80w7wpuj2095088jrx.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chicbian.com/2017/09/14/Django学习一/"/>
+
+
+
+
+
+  <title> Django学习一 | ChicBian的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ChicBian的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://chicbian.com/2017/09/14/Django学习一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chicbian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ChicBian的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Django学习一
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T09:36:02+08:00">
+                2017-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>前言：</strong> 最近 python 语言在编程界的受欢迎力度不减，长期稳居编程语言前 5 。而 python 在欧美国家，是拿来作为入门级编程语言。python 不仅可以用来编写传统 WEB 开发，GUI 应用开发，也可以用到现在主流的数据分析，以及人工智能方向，可谓是一个多功能型的语言。而本次学习，主要是以 Web 开发为主。</p>
+<p><em>打好学习 pyhton 的基础，为以后的机器学习做准备。</em></p>
+<h2 id="Python-之-Django"><a href="#Python-之-Django" class="headerlink" title="Python 之 Django"></a>Python 之 Django</h2><p>python web 的开发框架现在越来越多，并且也都趋于成熟。现在主流的 python web 开发框架包含有 Django, Flask , Pyramid , Tornado 等。具体前 3 种框架的区别可以看<a href="http://python.jobbole.com/81396/" target="_blank" rel="external">这里</a>。</p>
+<p>本篇主要是以 Django 为学习。</p>
+<ul>
+<li><p>Django 框架是什么？</p>
+<blockquote>
+<p>Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of Web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.(来自<a href="https://www.djangoproject.com/" target="_blank" rel="external"> Django 官网</a>)</p>
+</blockquote>
+</li>
+<li><p>学习中用到的工具</p>
+<p>本人是在 Windows 10 版本上进行的开发，在这里推荐同学们使用 MAC 或者 Linux 进行开发，因为在后 2 个平台上面已经自动集成 python 的开发环境。这里主要介绍如何在 Windows 上进行有一个比较舒适的 python 开发姿势。</p>
+<ul>
+<li><p>工具：<a href="https://code.visualstudio.com/" target="_blank" rel="external">Viual Studio Code</a>，优点我不累赘了，google 一下很多关于该工具的有点，使用起来也是美滋滋，相对于之前我使用过的 Sublime 3 ，个人推荐这款工具作为 python 开发（个人觉得 Sublime 的使用对于新手比较不那么友好）。</p>
+</li>
+<li><p>环境：python 安装，这里也是 Google 一下，很多教程，基本大同小异，这里本人用的是 python 3.5.4 64 bit 版本。（<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014316090478912dab2a3a9e8f4ed49d28854b292f85bb000" target="_blank" rel="external">廖雪峰的 Python 安装教程</a>）    </p>
+</li>
+<li><p>git 环境安装，因为后续的 Django 一些环境部署，包括 python 中一些类库的按照都需要用到 windows 指令，当然 vs code 工具中也自带有终端，不想按照可以略过。(<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000" target="_blank" rel="external">廖雪峰的 Git 安装教程</a>)</p>
+</li>
+<li><p>vs code 扩展插件按照：vs code的还有一个点好处就 是安装插件相当方便，并且配置相对于其他开发工具来说比较简单。点击左侧的扩展图标，进入到扩展程序。如下图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fjk80w7wpuj2095088jrx.jpg" alt="扩展界面"></p>
+<p>进入之后直接在搜索栏输入要安装的程序名称，就可以直接安装，下面我记录下本人所用到的扩展程序。</p>
+<ul>
+<li>1 Auto Close Tag</li>
+<li>2 Auto Rename Tag</li>
+<li>3 Beautify </li>
+<li>4 Bootstrap 3 Snippets</li>
+<li>5 Class autocomplete for HTML</li>
+<li>6 Dash</li>
+<li>7 Debugger for Chrome</li>
+<li>8 Debugger for Firefox</li>
+<li>9 Django Template</li>
+<li>10 ESLint</li>
+<li>11 Git History</li>
+<li>12 HTML CSS Support </li>
+<li>13 HTML Snippets</li>
+<li>14 JavaScript SnipperPack</li>
+<li>15 JQuery Code Snippets</li>
+<li>16 JS-CSS-HTML Formatter</li>
+<li>17 Language Support for Java</li>
+<li>18 Mithril Emmet</li>
+<li>19 Path Intellisense </li>
+<li>20 Python </li>
+<li>21 Python for VSCode</li>
+<li>22 React Native Tools</li>
+<li>23 Ractjs code snippets</li>
+<li>24 Typings auto installer</li>
+<li>25 vscode-flake8</li>
+<li>26 vscode-icons</li>
+</ul>
+<p>这里就是我 vscode 中所有的扩展程序，这里我就不一一描述每个扩展程序的作用了，其中很多是关于代码规范，以及代码提示高亮准备的，为开发提供了便捷。因为整个 DJango 开发中涉及的内容很多，包含了数据库，python , html-css-js , MVC 开发模式等各种内容。后续有需要的话，会另写一篇关于 vscode 的文章，再详细介绍这些扩展程序的作用。</p>
+<p>注意：其中部分扩展程序是需要在 vscode 的设置用进行文件部署设置的。</p>
+<p>点击 文件 -&gt; 首选项 -&gt; 设置，到用户设置界面，在右侧可以进行覆盖设置，这些设置可以覆盖到原有的设置部分， 其中 “typescript.tsdk” 这一项可以略过，这是我在 React Ntive设置中进行的配置，其他都配置上。基本到这里，你的 vscode 就已经配置的差不多了。如下图：</p>
+<p>​</p>
+<p><img src="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjk8r5zueij20sw0frgns.jpg" alt="用户设置"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>​          </p>
+<h3 id="Django-的简单创建以及使用"><a href="#Django-的简单创建以及使用" class="headerlink" title="Django 的简单创建以及使用"></a>Django 的简单创建以及使用</h3><blockquote>
+<p>VS Code提供了两种范围的设置，分别是User及Workspace. 用户级别的设置可以理解为全局设置，其中的设置对任一vscode实例都生效。工作区级别的设置则仅针对当前项目生效，配置文件存放在项目的 .vscode 文件夹中。一般在项目开发中我们使用工作区级别的设置。以下步骤记录了如何建立Django项目的基本目录结构。</p>
+</blockquote>
+<ol>
+<li><p>首先创建一个空的文件夹，作为一个工作空间使用，例如 ：D:\python\django_project，进入该文件夹，并且右击空白选择 git bash 进入到终端(没安装 Git 的同学可以用自带的终端自行切换到该目录)。</p>
+</li>
+<li><p>在该终端输入 virtualenv env 创建 env 文件夹</p>
+</li>
+<li><p>在该目录下在创建一个 requirenments.txt 文件，文件中添加以下内容，pylint为python的静态语法检测器，pylint-django 是适用于 django 项目的语法检查其插件，autopep8 是代码格式化工具</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">django&lt;<span class="number">1.10</span></div><div class="line">pylint</div><div class="line">pylint-django</div><div class="line">autopep8</div></pre></td></tr></table></figure>
+</li>
+<li><p>双击 \env\Scripts\activate.bat 激活虚拟环境</p>
+</li>
+<li><p>在 git bash 中执行 pip install -r requirenments.txt 安装相关模块</p>
+</li>
+<li><p>再执行 django-admin startproject mysitedemo ，在当前目录下创建一个 django 项目文件夹</p>
+</li>
+<li><p>进入 mysitedemo 目录，再执行 python manage.py startapp mysite 来新建一个 django app。</p>
+</li>
+<li><p>在 Vs Code 中选择打开文件夹方式打开该文件 django_project</p>
+</li>
+<li><p>在 Vs Code 中按下 Ctrl + Shift + P ，输入 Python ，然后选择 Python: Select Workspace Interpreter，在弹出框中选择 env 下的 python 。如图：</p>
+<p><img src="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjkars69svj20lz06cglt.jpg" alt="选择图"></p>
+</li>
+<li><p>在 Vs Code 中按下 Ctrl + Shift + P，输入 workspace，选择Preferences: Open Workspace Settings，配置如下的 JSON文件。</p>
+<p><img src="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjkaw61ncij20p80b9wfo.jpg" alt="配置"></p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"> <span class="attr">"python.pythonPath"</span>: <span class="string">"d:/python/django_project/env/scripts/python.exe"</span>,</div><div class="line"> <span class="attr">"python.linting.pylintPath"</span>: <span class="string">"pylint"</span>,</div><div class="line"> <span class="attr">"python.linting.pylintArgs"</span>: [</div><div class="line">     <span class="string">"--load-plugins"</span>, <span class="string">"pylint_django"</span></div><div class="line"> ],</div><div class="line"> <span class="attr">"python.formatting.autopep8Path"</span>: <span class="string">"autopep8"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>配置完成后，我们就可以继续项目开发了。</p>
+</li>
+</ol>
+<h4 id="Django的简单使用"><a href="#Django的简单使用" class="headerlink" title="Django的简单使用"></a>Django的简单使用</h4><p>首先我们看下项目目录结构的具体情况</p>
+<p><img src="https://ws1.sinaimg.cn/large/dcc3cfcdgy1fjkc212jk9j204x0dat8x.jpg" alt="项目结构"></p>
+<h4 id="熟悉下目录结构："><a href="#熟悉下目录结构：" class="headerlink" title="熟悉下目录结构："></a>熟悉下目录结构：</h4><ul>
+<li>最外层的 mysitedemo 也就是我们手动创建的文件夹，它在这里仅仅是项目的容器，它的命名对整个项目 都无关紧要，可以随便改。</li>
+<li>mysitedemo/manage.py，这是一个命令工具，可以使你用多种方式对 Django 项目进行交互。包括之前我们用来的命令 startapp 来创建的 mysite.</li>
+<li>mysitedemo/mysitedemo目录是项目中真正的 Python 包</li>
+<li>mysitedemo/<strong>init</strong>.py，这是一个空文件，它的目的就是告诉 Python 这个目录应该被看做一个 Python 包。</li>
+<li>mysitedemo/settings.py，该文件为 Django 项目的配置文件</li>
+<li>mysietedemo/urls.py，该文件为 Django 的 URL 声明</li>
+<li>mysitedemo/wsgi.py，用于你的项目的与WSGI兼容的Web服务器入口</li>
+<li>mysitedemo/mysite，该文件夹为创建的新文件夹，用来做具体的项目</li>
+</ul>
+<h4 id="数据库的建立"><a href="#数据库的建立" class="headerlink" title="数据库的建立"></a>数据库的建立</h4><p>Django 默认使用 SQLite。当然 Django 对其他数据库也是支持的。通常使用数据库需要在 mysitedemo/setting.py 中进行配置，使用默认数据库比较简单明了，如果使用其他远程数据库或者已经创建好的本地数据库文件，比如 MySQL，就需要在配置文件中进行详细的配置，添加User,password,hoset等额外的配置。</p>
+<p>这里我们优先选用默认的 SQLite，方便使用和学习。</p>
+<p>打开 setting.py 文件，找到 DATABASES ，在 ‘default’ 条目中可以看到以下的配置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">'default': &#123;</div><div class="line">       'ENGINE': 'django.db.backends.sqlite3',</div><div class="line">       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>当使用 SQLite，你不需要事先创建任何东西，数据库文件将会在需要的时候自动创建。</p>
+<p>这里我们暂时需要一个数据库表，直接运行以下命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py migrate</div></pre></td></tr></table></figure>
+<p>这时，项目目录中会直接出现一个数据库表 db.sqlite3</p>
+<h3 id="本次学习总结"><a href="#本次学习总结" class="headerlink" title="本次学习总结"></a>本次学习总结</h3><p>本次主要介绍了 Django以及一些插件话，和简单的DJango 项目部署，在下一节，将会采取实际项目来针对学习，根据具体需求来进行学习。</p>
+<blockquote>
+<p>写的不好的地方，请大家积极反应。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/04/牛客网算法之动态规则/" rel="next" title="牛客网算法之动态规则">
+                <i class="fa fa-chevron-left"></i> 牛客网算法之动态规则
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+           
+     <div class="comments" id="comments">
+       
+            <div id="uyan_frame"></div>
+       
+     </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="chicbian" />
+          <p class="site-author-name" itemprop="name">chicbian</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-之-Django"><span class="nav-number">1.</span> <span class="nav-text">Python 之 Django</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Django-的简单创建以及使用"><span class="nav-number">1.1.</span> <span class="nav-text">Django 的简单创建以及使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Django的简单使用"><span class="nav-number">1.1.1.</span> <span class="nav-text">Django的简单使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#熟悉下目录结构："><span class="nav-number">1.1.2.</span> <span class="nav-text">熟悉下目录结构：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库的建立"><span class="nav-number">1.1.3.</span> <span class="nav-text">数据库的建立</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本次学习总结"><span class="nav-number">1.2.</span> <span class="nav-text">本次学习总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chicbian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2130903"></script>
+        <!-- UY END -->
+    
+  
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
