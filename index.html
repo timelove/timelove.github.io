@@ -287,6 +287,205 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://chicbian.com/2018/04/27/android之sophix热修复/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chicbian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ChicBian的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/27/android之sophix热修复/" itemprop="url">
+                  android之sophix热修复
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T10:16:51+08:00">
+                2018-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="热修复概述"><a href="#热修复概述" class="headerlink" title="热修复概述"></a>热修复概述</h3><p>近 2 年来，热修复技术飞速发展。毕竟每次一个小版本的更新都要通过发布 apk 来实现，这样用户使用感可以说也是非常差了。怎么让客户不去重新下载一个 apk 而实现一个小版本或者一次小 bug 的修复，因此，热修复应运而生。</p>
+<p>特别是 android studio 2.0 版本后 推出了 Instant Run 这个功能，关于 Instant Run 可以看 <a href="https://blog.csdn.net/guolin_blog/article/details/51271369" target="_blank" rel="external">郭大的博文</a>。从此，各种热修复热更新技术相继出现，国内比较成熟的主流 APP 都拥有自己的热修复技术，像支付宝、QQ、微信、美团等。</p>
+<p>之前的热修复一般只支持代码热修复，而不支持资源热修复。代码热修复只是针对一些逻辑性错误的代码修改，到了后面又相继出现资源热修复，以及 so 热修复。本文主要是说阿里的 sophix ，所以就拿阿里的各版本热修复来说明比较。具体看下图：<img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr0ouo0gdj20hj0hzdgt.jpg" alt=""></p>
+<p>基本可以看清楚，阿里从 Andfix 到最新的 Sophix 正在逐步完善。</p>
+<p>而本文就将介绍，如何在 Android 项目中集成 Sophix 以及 如何使用Sophix。</p>
+<h3 id="Sophix-集成和准备"><a href="#Sophix-集成和准备" class="headerlink" title="Sophix 集成和准备"></a>Sophix 集成和准备</h3><ol>
+<li><h5 id="集成准备"><a href="#集成准备" class="headerlink" title="集成准备"></a>集成准备</h5><p>工具：android studio </p>
+<p>环境：jdk 1.8</p>
+<p>找到项目的 build.gradle 直接添加 maven 仓库地址：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">repositories &#123;</div><div class="line">   maven &#123;</div><div class="line">       url <span class="string">"http://maven.aliyun.com/nexus/content/repositories/releases"</span></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后找到 app 的 gradle 添加版本依赖：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'com.aliyun.ams:alicloud-android-hotfix:3.2.2'</span></div></pre></td></tr></table></figure>
+<p>点击一波 sync now，完成配置。</p>
+</li>
+</ol>
+<ol>
+<li><h4 id="权限说明"><a href="#权限说明" class="headerlink" title="权限说明"></a>权限说明</h4><p>Siphix 需要用到 4 个基本权限：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;! -- 网络权限 --&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span> /&gt;</div><div class="line">&lt;! -- 外部存储读权限，调试工具加载本地补丁需要 --&gt;</div><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span>/&gt;</div></pre></td></tr></table></figure>
+<p>第四个权限是属于 Dangerous Permissions，所以需要在 android 6.0 的版本以上进行动态权限获取。</p>
+</li>
+<li><h4 id="混淆配置"><a href="#混淆配置" class="headerlink" title="混淆配置"></a>混淆配置</h4><p>需要在 proguard-rules.pro 混淆文件中加入混淆代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#hotfix</div><div class="line">-keep class com.taobao.sophix.**&#123;*;&#125;</div><div class="line">-keep class com.ta.utdid2.device.**&#123;*;&#125;</div><div class="line">#防止inline</div><div class="line">-dontoptimize</div><div class="line">-keepclassmembers class com.zyue.zyueapp.base.BaseApplication &#123;</div><div class="line">    public &lt;init&gt;();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="Sophix-的稳健初始化方式"><a href="#Sophix-的稳健初始化方式" class="headerlink" title="Sophix 的稳健初始化方式"></a>Sophix 的稳健初始化方式</h4><p>本文采用 Sophix 的最新版本初始化方式，该方法显得更加简单明了，而且跟原始的自己所加载的 Application 不会造成冲突。这样使得原先真正的 Application 也可以热修复，并且减少了补丁预加载的时间，同时还兼容了 Aandroid 8.0 以后的版本。</p>
+<p>具体就是要我们自己加入一个类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.my.pkg;</div><div class="line"><span class="keyword">import</span> android.app.Application;</div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.support.annotation.Keep;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"><span class="keyword">import</span> com.taobao.sophix.PatchStatus;</div><div class="line"><span class="keyword">import</span> com.taobao.sophix.SophixApplication;</div><div class="line"><span class="keyword">import</span> com.taobao.sophix.SophixEntry;</div><div class="line"><span class="keyword">import</span> com.taobao.sophix.SophixManager;</div><div class="line"><span class="keyword">import</span> com.taobao.sophix.listener.PatchLoadStatusListener;</div><div class="line"><span class="keyword">import</span> com.my.pkg.MyRealApplication;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Sophix入口类，专门用于初始化Sophix，不应包含任何业务逻辑。</div><div class="line"> * 此类必须继承自SophixApplication，onCreate方法不需要实现。</div><div class="line"> * 此类不应与项目中的其他类有任何互相调用的逻辑，必须完全做到隔离。</div><div class="line"> * AndroidManifest中设置application为此类，而SophixEntry中设为原先Application类。</div><div class="line"> * 注意原先Application里不需要再重复初始化Sophix，并且需要避免混淆原先Application类。</div><div class="line"> * 如有其它自定义改造，请咨询官方后妥善处理。</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SophixStubApplication</span> <span class="keyword">extends</span> <span class="title">SophixApplication</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String TAG = <span class="string">"SophixStubApplication"</span>;</div><div class="line">    <span class="comment">// 此处SophixEntry应指定真正的Application，并且保证RealApplicationStub类名不被混淆。</span></div><div class="line">    <span class="meta">@Keep</span></div><div class="line">    <span class="meta">@SophixEntry</span>(MyRealApplication.class)</div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RealApplicationStub</span> </span>&#123;&#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">attachBaseContext</span><span class="params">(Context base)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.attachBaseContext(base);</div><div class="line"><span class="comment">//         如果需要使用MultiDex，需要在此处调用。</span></div><div class="line"><span class="comment">//         MultiDex.install(this);</span></div><div class="line">        initSophix();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initSophix</span><span class="params">()</span> </span>&#123;</div><div class="line">        String appVersion = <span class="string">"0.0.0"</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            appVersion = <span class="keyword">this</span>.getPackageManager()</div><div class="line">                             .getPackageInfo(<span class="keyword">this</span>.getPackageName(), <span class="number">0</span>)</div><div class="line">                             .versionName;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">final</span> SophixManager instance = SophixManager.getInstance();</div><div class="line">        instance.setContext(<span class="keyword">this</span>)</div><div class="line">                .setAppVersion(appVersion)</div><div class="line">                .setSecretMetaData(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>)</div><div class="line">                .setEnableDebug(<span class="keyword">true</span>)</div><div class="line">                .setEnableFullLog()</div><div class="line">                .setPatchLoadStatusStub(<span class="keyword">new</span> PatchLoadStatusListener() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoad</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> mode, <span class="keyword">final</span> <span class="keyword">int</span> code, <span class="keyword">final</span> String info, <span class="keyword">final</span> <span class="keyword">int</span> handlePatchVersion)</span> </span>&#123;</div><div class="line">                        <span class="keyword">if</span> (code == PatchStatus.CODE_LOAD_SUCCESS) &#123;</div><div class="line">                            Log.i(TAG, <span class="string">"sophix load patch success!"</span>);</div><div class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (code == PatchStatus.CODE_LOAD_RELAUNCH) &#123;</div><div class="line">                            <span class="comment">// 如果需要在后台重启，建议此处用SharePreference保存状态。</span></div><div class="line">                            Log.i(TAG, <span class="string">"sophix preload patch success. restart app to make effect."</span>);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;).initialize();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这边的初始化动作一定要放在 attachBaseContext 中进行，onCreate 不需要自行实现。并且如果项目中因为方法类过多，超过 64K ,需要使用到MultiDex，就必须把该方法放到初始化动作之前，也就是上类中注释掉的部分。</p>
+<p>在这个类中，关键一点要加入自己写的 Application.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Keep</span></div><div class="line">  <span class="meta">@SophixEntry</span>(MyRealApplication.class)</div><div class="line">  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RealApplicationStub</span> </span>&#123;&#125;</div></pre></td></tr></table></figure>
+<p>这里的 MyRealApplication 就换成自己写的 Application。</p>
+<p>为了防止自己写的 Application 和 这个类混淆，在 proguard 文件中加入以下混淆代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-keepclassmembers class com.my.pkg.MyRealApplication &#123;</div><div class="line">    public &lt;init&gt;();</div><div class="line">&#125;</div><div class="line"># 如果不使用android.support.annotation.Keep则需加上此行</div><div class="line"># -keep class com.my.pkg.SophixStubApplication$RealApplicationStub</div></pre></td></tr></table></figure>
+<p>最后，将 AndoridManifest.xml 中的 application 的 name 换成这个类名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;application</div><div class="line">       android:name=<span class="string">"com.my.pkg.SophixStubApplication"</span></div><div class="line">       ... ...&gt;</div><div class="line">       ... ...</div></pre></td></tr></table></figure>
+<p><strong>最为关键的一步：</strong></p>
+<p>到此处，稳健接入初始化，还差一个步骤，就是进行补丁下拉，也就是 queryAndLoadNewPatch 这个方法的调用。我个人是直接放到了自己写的 Application onCreate中，不建议放到其他方法类下。</p>
+<p>或者自己写个线程进行间隔拉取补丁进行热修复。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="keyword">super</span>.onCreate();</div><div class="line">     SophixManager.getInstance().queryAndLoadNewPatch();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>到这里，这样除了一个 setSecretMetaData 没有配置，其他都配置 OK 了。setSecretMetaData 里面的参数，需要在阿里控制台进行其他操作才能进行。</p>
+<p>若有不理解处，可以具体查看官方<a href="https://help.aliyun.com/document_detail/69874.html?spm=a2c4g.11186623.6.549.95pgtc" target="_blank" rel="external">官方技术文档</a>。</p>
+</li>
+</ol>
+<h3 id="Sophix-具体使用"><a href="#Sophix-具体使用" class="headerlink" title="Sophix 具体使用"></a>Sophix 具体使用</h3><ol>
+<li><p>首先进入阿里云的<a href="https://emas.console.aliyun.com/" target="_blank" rel="external">移动研发平台</a>。找到移动热修复功能点，或者搜索。</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr2biv0bcj20520ktaaj.jpg" alt=""></p>
+</li>
+<li><p>点击添加产品</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr2d6jmgwj20a405bdfn.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr2ed8vhej20h109a0su.jpg" alt=""></p>
+</li>
+<li><p>填写产品信息，创建完成后，点击该产品进入。</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr2g6hw8fj20hy0bidg0.jpg" alt=""></p>
+</li>
+<li><p>点击添加应用</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr2h3u34ij20tk0f0gm9.jpg" alt=""></p>
+</li>
+<li><p>app 名称和包名跟自己项目的保持一致，然后创建。</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr65ff7mrj21320bqq3m.jpg" alt=""></p>
+<p>这里可以看到项目中所需要的 AppSecret，还有2 个参数，就点击下载 aliyun-emas-services.json，打开找      到 IDSECRET ，APPSECRET ，RSASECRET 这 3 个参数，写入到一开始稳健接入 SophixStubApplication 类中。主要设置为 setSecretMetaData 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> SophixManager instance = SophixManager.getInstance();</div><div class="line">        instance.setContext(<span class="keyword">this</span>)</div><div class="line">                .setAppVersion(appVersion)</div><div class="line">                .setSecretMetaData(<span class="string">"IDSECRET"</span>, <span class="string">"APPSECRET "</span>,<span class="string">"RSASECRET"</span>)<span class="comment">//填写密钥和ID</span></div><div class="line">                .setEnableDebug(<span class="keyword">true</span>)</div><div class="line">                .setEnableFullLog()</div><div class="line">                .setPatchLoadStatusStub(<span class="keyword">new</span> PatchLoadStatusListener() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoad</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> mode, <span class="keyword">final</span> <span class="keyword">int</span> code, <span class="keyword">final</span> String info, <span class="keyword">final</span></span></span></div><div class="line">                    <span class="keyword">int</span> handlePatchVersion) &#123;</div><div class="line">                        <span class="keyword">if</span> (code == PatchStatus.CODE_LOAD_SUCCESS) &#123;</div><div class="line">                            Log.i(TAG, <span class="string">"sophix load patch success!"</span>);</div><div class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (code == PatchStatus.CODE_LOAD_RELAUNCH) &#123;</div><div class="line">                            <span class="comment">// 如果需要在后台重启，建议此处用SharePreference保存状态。</span></div><div class="line">                            Log.i(TAG, <span class="string">"sophix preload patch success. restart app to make effect."</span>);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;).initialize();</div></pre></td></tr></table></figure>
+<p><strong>到这一步完成，Sophix 的初始化才算真正完成。</strong></p>
+</li>
+<li><p>然后点击移动热修复，点击功能。</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr2ipaoggj21b70art9f.jpg" alt=""></p>
+<p>点击添加版本</p>
+<p> <strong>注意：</strong>这里的版本号必须跟项目中的 versionName 保持一致，否则项目拉取补丁会失败。</p>
+<p>到这个就可以上传自己项目的补丁了。</p>
+</li>
+<li><p>补丁制作</p>
+<p>是需要下载官方的一个工具，然后进行补丁打包。再将该补丁上传到该版本下。</p>
+<p>生成补丁看这里，<a href="https://help.aliyun.com/document_detail/53247.html?spm=a2c4g.11186623.6.550.JPid86" target="_blank" rel="external">生成补丁</a>.</p>
+<p><strong>又要注意了</strong>：这里的补丁名称不要乱修改，就得用这个工具生成的。</p>
+<blockquote>
+<p>到了此处，终于到了补丁发布了。折腾这么久，听着流泪，闻着伤心。</p>
+</blockquote>
+</li>
+<li><p>上传完补丁后，点击详情，进入该补丁界面。</p>
+<p><img src="http://ww1.sinaimg.cn/large/dcc3cfcdgy1fqr615exizj21570js76c.jpg" alt=""></p>
+<p>这个右侧有一个<strong>扫码验证</strong>补丁：点击下载 Sophix自带的一个自测 apk，安装在自己手机上，可以扫码来验证补丁是否有效，有效后，可以点击，新建发布。然后打开手机上的 app，就可以坐等热修复了。​​​​</p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到这里，Sophix 热修复的功能就基本结束了。其中，小编自己踩的坑也都表明了注意，要是还有其他问题可以访问官方技术文档，或者进行问题搜索都可以得到一个满意的答复。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://chicbian.com/2018/01/09/2017总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1889,7 +2088,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
