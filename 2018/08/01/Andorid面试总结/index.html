@@ -1,0 +1,866 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="每天进步一点！" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Andorid面试总结">
+<meta property="og:url" content="http://chicbian.com/2018/08/01/Andorid面试总结/index.html">
+<meta property="og:site_name" content="ChicBian的博客">
+<meta property="og:description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
+<meta property="og:updated_time" content="2018-08-20T07:32:57.095Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Andorid面试总结">
+<meta name="twitter:description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chicbian.com/2018/08/01/Andorid面试总结/"/>
+
+
+
+
+
+  <title> Andorid面试总结 | ChicBian的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ChicBian的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://chicbian.com/2018/08/01/Andorid面试总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chicbian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ChicBian的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Andorid面试总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T13:53:36+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Andorid-面试总结"><a href="#Andorid-面试总结" class="headerlink" title="Andorid 面试总结"></a>Andorid 面试总结</h3><blockquote>
+<p>给出我面试 Andorid 中被问的问题，以及解决方案。</p>
+</blockquote>
+<ol>
+<li><p>Activity 的生命周期</p>
+<p>onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory() </p>
+</li>
+<li><p>ListView 的优化方案</p>
+<p>ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。</p>
+<ol>
+<li><p>converView 复用</p>
+<p>利用好 convertView 来重用 View，切忌每次 getView() 都新建。ListView 的核心原理就是重用 View，如果重用 view 不改变宽高，重用View可以减少重新分配缓存造成的内存频繁分配/回收。</p>
+</li>
+<li><p>ViewHolder 优化</p>
+<p>使用ViewHolder的原因是findViewById方法耗时较大，如果控件个数过多，会严重影响性能，而使用ViewHolder主要是为了可以省去这个时间。通过setTag，getTag直接获取View。</p>
+<p>代码类似如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span>  <span class="title">ViewHolder</span></span>&#123;</div><div class="line">    ImageView img;</div><div class="line">    TextView name;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</div><div class="line">    ViewHolder holder = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span>(convertView==<span class="keyword">null</span>)&#123;</div><div class="line">        convertView = inflater.inflate(R.layout.list_item, parent, <span class="keyword">false</span>);</div><div class="line">        holder.img = (ImageView) convertView.findViewById(R.id.img);</div><div class="line">        holder.name = (TextView) convertView.findViewById(R.id.name);</div><div class="line">        holder = <span class="keyword">new</span> ViewHolder();</div><div class="line">        convertView.setTag(holder);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        holder = (ViewHolder) convertView.getTag();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//设置holder</span></div><div class="line">    holder.img.setImageResource(R.drawable.ic_launcher);</div><div class="line">    holder.name.setText(list.get(position).partname);</div><div class="line">    <span class="keyword">return</span> convertView;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>图片加载优化</p>
+<p>如果ListView需要加载显示网络图片，我们尽量不要在ListView滑动的时候加载图片，那样会使ListView变得卡顿，所以我们需要在监听器里面监听ListView的状态，如果ListView滑动（SCROLL_STATE_TOUCH_SCROLL）或者被猛滑（SCROLL_STATE_FLING）的时候，停止加载图片，如果没有滑动（SCROLL_STATE_IDLE），则开始加载图片。</p>
+<p>其实 RecycleView 已经解决了这个问题。</p>
+<ul>
+<li>RecyclerView 和 ListView 的区别：</li>
+</ul>
+<p>​     RecyclerView可以完成ListView,GridView的效果，还可以完成瀑布流的效果。同时还可以设置列表的  滚动方向（垂直或者水平）；</p>
+<p>RecyclerView中view的复用不需要开发者自己写代码，系统已经帮封装完成了。</p>
+<p>RecyclerView可以进行局部刷新。</p>
+<p>RecyclerView提供了API来实现item的动画效果。</p>
+<p>在性能上：</p>
+<p>如果需要频繁的刷新数据，需要添加动画，则RecyclerView有较大的优势。</p>
+<p>如果只是作为列表展示，则两者区别并不是很大。</p>
+</li>
+</ol>
+</li>
+<li><p>Webview  和 js 的交互</p>
+<ul>
+<li><p>Android 调用 js 方法：</p>
+<ol>
+<li><p>webView.loadUrl(url),url 可以是一个地址，也可以是一个类似于 javascript:retrunpage() 这样一个定义在 js 内部的方法，都可以达到调用 js 的效果，简单便捷。但是此方法效率比较低，获取返回值比较困难。</p>
+</li>
+<li><p>webView.evaluateJavascript()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">webView.evaluateJavascript(url, <span class="keyword">new</span> ValueCallback&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceiveValue</span><span class="params">(String value)</span> </span>&#123;</div><div class="line">              <span class="comment">//获取返回值</span></div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<p>该方法效率高，而且不会刷新页面，loadUrl 会刷新页面，效率低。但是该方法只能在 4.4 以上的版本使用，所以 2 个方法应该结合使用。</p>
+<blockquote>
+<p>具体可以看该<a href="">博文</a></p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>Js 调用 Andorid 代码</p>
+<ol>
+<li><p>通过 webview.addJavascriptInterface(new JSHook(), “androidApp”);</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> webview.addJavascriptInterface(<span class="keyword">new</span> JSHook(), <span class="string">"androidApp"</span>);</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JSHook</span> </span>&#123;</div><div class="line">        <span class="meta">@JavascriptInterface</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setResult</span><span class="params">(String result)</span> </span>&#123;</div><div class="line">            <span class="comment">//得到参数</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个方法缺陷比较大，漏洞产生原因是：当JS拿到Android这个对象后，就可以调用这个Android对象中所有的方法，包括系统类（java.lang.Runtime 类），从而进行任意代码执行。</p>
+<p>解决方式：</p>
+<p>(1)Google 在Android 4.2 版本中规定对被调用的函数以 @JavascriptInterface进行注解从而避免漏洞攻击。</p>
+<p>(2)在Android 4.2版本之前采用拦截prompt（）进行漏洞修复</p>
+</li>
+<li><p>通过 webviewClient的 shouldOverrideUrlLoading 回调拦截 url </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">webview.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">                view.loadUrl(url);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<p>js 代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></div><div class="line"></div><div class="line">   <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">title</span>&gt;</span>Carson_Ho<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"></div><div class="line">     <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">         <span class="function"><span class="keyword">function</span> <span class="title">callAndroid</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="comment">/*约定的url协议为：js://webview?arg1=111&amp;arg2=222*/</span></div><div class="line">            <span class="built_in">document</span>.location = <span class="string">"js://webview?arg1=111&amp;arg2=222"</span>;</div><div class="line">         &#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 点击按钮则调用callAndroid（）方法  --&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">"button1"</span> <span class="attr">onclick</span>=<span class="string">"callAndroid()"</span>&gt;</span>点击调用Android代码<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Android 代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 步骤1：加载JS代码</span></div><div class="line">        <span class="comment">// 格式规定为:file:///android_asset/文件名.html</span></div><div class="line">        mWebView.loadUrl(<span class="string">"file:///android_asset/javascript.html"</span>);</div><div class="line">        <span class="comment">// 复写WebViewClient类的shouldOverrideUrlLoading方法</span></div><div class="line">        mWebView.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</div><div class="line">                                          <span class="meta">@Override</span></div><div class="line">                                          <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>                      <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line"></div><div class="line">                                              <span class="comment">// 步骤2：根据协议的参数，判断是否是所需要的url</span></div><div class="line">                                              <span class="comment">// 一般根据scheme（协议格式） &amp; authority（协议名）判断（前两个参数）</span></div><div class="line">                                              <span class="comment">//假定传入进来的 url = "js://webview?arg1=111&amp;arg2=222"（同时也是约定好的需要拦截的）</span></div><div class="line"></div><div class="line">                                              Uri uri = Uri.parse(url);                                 </div><div class="line">                                              <span class="comment">// 如果url的协议 = 预先约定的 js 协议</span></div><div class="line">                                              <span class="comment">// 就解析往下解析参数</span></div><div class="line">                                              <span class="keyword">if</span> ( uri.getScheme().equals(<span class="string">"js"</span>)) &#123;</div><div class="line"></div><div class="line">                                                  <span class="comment">// 如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议</span></div><div class="line">                                                  <span class="comment">// 所以拦截url,下面JS开始调用Android需要的方法</span></div><div class="line">                                                  <span class="keyword">if</span> (uri.getAuthority().equals(<span class="string">"webview"</span>)) &#123;</div><div class="line"></div><div class="line">                                                     <span class="comment">//  步骤3：</span></div><div class="line">                                                      <span class="comment">// 执行JS所需要调用的逻辑</span></div><div class="line">                                                      System.out.println(<span class="string">"js调用了Android的方法"</span>);</div><div class="line">                                                      <span class="comment">// 可以在协议上带有参数并传递到Android上</span></div><div class="line">                                                      HashMap&lt;String, String&gt; params = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">                                                      Set&lt;String&gt; collection = uri.getQueryParameterNames();</div><div class="line"></div><div class="line">                                                  &#125;</div><div class="line"></div><div class="line">                                                  <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                                              &#125;</div><div class="line">                                              <span class="keyword">return</span> <span class="keyword">super</span>.shouldOverrideUrlLoading(view, url);</div><div class="line">                                          &#125;</div><div class="line">                                      &#125;</div><div class="line">            );</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p><em>特点：</em></p>
+<pre><code>1. 该方法不存在 第一种方法中的 漏洞问题
+2. 但是 js 想要获取 Android 返回值，只能通过 Andorid 再调用 js 代码。
+</code></pre><ol>
+<li><p>Android通过 <code>WebChromeClient</code> 的<code>onJsAlert()</code>、<code>onJsConfirm()</code>、<code>onJsPrompt（）</code>方法回调分别拦截JS对话框 。</p>
+<blockquote>
+<p>整个 Android 和 js 的交互大致就是这几种，详情可以看该<a href="https://blog.csdn.net/carson_ho/article/details/64904691/" target="_blank" rel="external">博文</a>。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Andorid 多线程的线程锁</p>
+<p>Andorid 线程锁大致分为 2 种，同步机制关键字  synchronized 和 显示锁 Lock。</p>
+<ol>
+<li><p>同步机制关键字 synchronized</p>
+<p>对于 java 来说，最常用的同步机制就是 synchronized 关键字，他是一种基于语言的粗略锁，能够作用于对象、函数、class。每个对象都只有一个锁，谁能够拿到这个锁谁就有访问权限。当 synchronized 作用于函数时，实际上锁的也是对象，锁定的对象就是该函数所在类的对象。而 synchronized 作用于 class 时则是锁的这个 Class 类，并非具体对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronizedClass</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">syncMethod</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//代码</span></div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">syncThis</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>)&#123;</div><div class="line">            <span class="comment">//代码</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">syncClassMethod</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (SynchronizedClass.class)&#123;</div><div class="line">            <span class="comment">//代码</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">syncStaticMethod</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//代码</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>显示锁 Lock</p>
+<p>Lock 接口的实现类提供了比使用 synchronized 关键字更加灵活和广泛的锁定对象操作，而且是以面向对象的方式进行对象加锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">	</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantLockDemo</span> </span>&#123;</div><div class="line">    Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSth</span><span class="params">()</span></span>&#123;</div><div class="line">        lock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//执行某些操作</span></div><div class="line">        &#125;<span class="keyword">finally</span> &#123;</div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的是，用sychronized修饰的方法或者语句块在代码执行完之后锁自动释放，而是用Lock需要我们<strong>手动释放锁</strong>，所以为了保证锁最终被释放(发生异常情况)，要把互斥区放在 try 内，释放锁放在finally 内！！</p>
+</li>
+<li><p>读写锁 ReadWriteLock</p>
+<p>当我们读取与写入数据时，有这么一个需求：读与写互斥、写与写互斥、读与读不互斥。这里就必须用到读写锁.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> SychronizedTest;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReadWriteLock;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantReadWriteLock;</div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line"> * 读写锁测试</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> zy_style</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadWriteLockTest</span> </span>&#123;</div><div class="line"> </div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@author</span> zhouyang 2016-12-1</div><div class="line">	 * <span class="doctag">@time</span> 下午3:01:27</div><div class="line">	 * <span class="doctag">@param</span> args</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">final</span> Data data = <span class="keyword">new</span> Data();</div><div class="line">		<span class="comment">// 开启3个子线程,分别写入数据</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">			<span class="keyword">new</span> Thread() &#123;</div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++) &#123;</div><div class="line">						<span class="keyword">try</span> &#123;</div><div class="line">							data.set(j); <span class="comment">// 写入数据</span></div><div class="line">						&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">							e.printStackTrace();</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;;</div><div class="line">			&#125;.start();</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 分别读取数据</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">			<span class="keyword">new</span> Thread() &#123;</div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++) &#123;</div><div class="line">						<span class="keyword">try</span> &#123;</div><div class="line">							data.get(); <span class="comment">// 读取数据</span></div><div class="line">						&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">							e.printStackTrace();</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;;</div><div class="line">			&#125;.start();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * 需要操作的数据</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> zy_style</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> data;</div><div class="line">	<span class="keyword">private</span> ReadWriteLock readWriteLock = <span class="keyword">new</span> ReentrantReadWriteLock();</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> data)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		readWriteLock.writeLock().lock(); <span class="comment">// 获取写锁</span></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"准备写入数据..."</span>);</div><div class="line">			Thread.sleep(<span class="number">50</span>); <span class="comment">// 模拟耗时操作</span></div><div class="line">			<span class="keyword">this</span>.data = data;</div><div class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"写入数据成功!"</span>);</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			readWriteLock.writeLock().unlock(); <span class="comment">// 释放写锁</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		readWriteLock.readLock().lock(); <span class="comment">// 获取读锁</span></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"准备读取数据..."</span>);</div><div class="line">			Thread.sleep(<span class="number">50</span>); <span class="comment">// 模拟耗时操作</span></div><div class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"读取数据:"</span></div><div class="line">					+ <span class="keyword">this</span>.data);</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			readWriteLock.readLock().unlock(); <span class="comment">// 释放读锁</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>自定义 View </p>
+<p>View 的绘制流程：OnMeasure() — OnLayout() — OnDraw()</p>
+<ul>
+<li><p>OnMeasure()：测量试图大小。从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又回调 OnMeasure。</p>
+</li>
+<li><p>OnLayout()：确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout 方法的过程，即父 View  根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。</p>
+</li>
+<li><p>OnDrwa()：绘制试图。ViewRoot 创建一个 Canvas 对象，然后调用 OnDraw()。六个步骤：</p>
+<p>①.绘制视图的背景；②.保存画布的图层（Layer）；③.通过 onDraw() 绘制 View 的内容；④.通过 dispatchDraw() 绘制 View 子视图，如果没有就不用；⑤.还原图层（Layer）；⑥.绘制滚动条</p>
+<blockquote>
+<p>View 的绘制流程具体可以看<a href="https://www.jianshu.com/p/060b5f68da79" target="_blank" rel="external">这篇博文</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>View 的事件分布机制</p>
+<ol>
+<li>Touch事件分发中只有两个主角:ViewGroup和View。ViewGroup包含onInterceptTouchEvent、dispatchTouchEvent、onTouchEvent三个相关事件。View包含dispatchTouchEvent、onTouchEvent两个相关事件。其中ViewGroup又继承于View。</li>
+<li>ViewGroup和View组成了一个树状结构，根节点为Activity内部包含的一个ViwGroup。</li>
+<li>触摸事件由Action_Down、Action_Move、Aciton_UP组成，其中一次完整的触摸事件中，Down和Up都只有一个，Move有若干个，可以为0个。</li>
+<li>当Acitivty接收到Touch事件时，将遍历子View进行Down事件的分发。ViewGroup的遍历可以看成是递归的。分发的目的是为了找到真正要处理本次完整触摸事件的View，这个View会在onTouchuEvent结果返回true。</li>
+<li>当某个子View返回true时，会中止Down事件的分发，同时在ViewGroup中记录该子View。接下去的Move和Up事件将由该子View直接进行处理。由于子View是保存在ViewGroup中的，多层ViewGroup的节点结构时，上级ViewGroup保存的会是真实处理事件的View所在的ViewGroup对象:如ViewGroup0-ViewGroup1-TextView的结构中，TextView返回了true，它将被保存在ViewGroup1中，而ViewGroup1也会返回true，被保存在ViewGroup0中。当Move和UP事件来时，会先从ViewGroup0传递至ViewGroup1，再由ViewGroup1传递至TextView。</li>
+<li>当ViewGroup中所有子View都不捕获Down事件时，将触发ViewGroup自身的onTouch事件。触发的方式是调用super.dispatchTouchEvent函数，即父类View的dispatchTouchEvent方法。在所有子View都不处理的情况下，触发Acitivity的onTouchEvent方法。</li>
+<li>onInterceptTouchEvent有两个作用：1.拦截Down事件的分发。2.中止Up和Move事件向目标View传递，使得目标View所在的ViewGroup捕获Up和Move事件。</li>
+</ol>
+<blockquote>
+<p>view  事件分发机制具体可以看该<a href="https://blog.csdn.net/u010302764/article/details/72636459" target="_blank" rel="external">博文</a></p>
+</blockquote>
+</li>
+<li><p>Thread 和 AsyncTask</p>
+<p>其实 Thread 和 AsyncTaks 并不是一个等级的东西。</p>
+<p>AsyncTask是作为异步任务，执行除了UI界面更新的任务之外的其他耗时操作的。UI界面的更新是在主线程，也就是UI线程中执行的，而在这个异步任务中，开启了一个工作线程来执行耗时操作。而这个工作线程和UI线程的执行顺序是不同步的，也就是说只有执行完工作线程中的下载之后，才会调用UI线程中的onPostExecute()执行后续UI操作，这样就实现了异步下载。如果UI线程销毁之后工作线程再发送下载结束的信息，由于工作线程再使用过程中是与AsyncTask绑定的，所以他也会随着当前AsyncTask的销毁而销毁，不会执行后续的下载操作，自然也不会执行发送下载结束的信息。</p>
+<p>而用 Thread 开启简单的子线程执行下载，子线程和 UI 线程只能保持简单的同步关系，这个时候需要通过 Handler 进行异步操作。</p>
+<p>举例说明：</p>
+<p>Thread 开启简单的子线程下载，下载完成后进行 UI 操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/**</span></div><div class="line">     * 下载线程</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> Thread downThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="comment">//下载操作</span></div><div class="line">            Message message = Message.obtain();</div><div class="line">            message.what =<span class="number">1</span>;</div><div class="line">            message.obj = <span class="string">"data"</span>;</div><div class="line">            handler.sendMessage(message);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Handler handler = <span class="keyword">new</span> Handler(<span class="keyword">new</span> Handler.Callback() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span>(<span class="number">1</span>==msg.what)&#123;</div><div class="line">                <span class="comment">//UI 操作</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"><span class="comment">//最后在需要下载的地方 调用</span></div><div class="line">  downThread.start();</div></pre></td></tr></table></figure>
+<p>AsyncTask:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownLoadAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Integer</span>, <span class="title">Boolean</span>&gt; </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onPreExecute();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Boolean aBoolean)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onPostExecute(aBoolean);</div><div class="line">            <span class="keyword">if</span> (aBoolean) &#123;</div><div class="line">                Toast.makeText(mContext, <span class="string">"下载成功"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                Toast.makeText(mContext, <span class="string">"下载失败"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProgressUpdate</span><span class="params">(Integer... values)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onProgressUpdate(values);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCancelled</span><span class="params">(Boolean aBoolean)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onCancelled(aBoolean);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCancelled</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onCancelled();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> Boolean <span class="title">doInBackground</span><span class="params">(Void... voids)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//调用方法</span></div><div class="line"> DownLoadAsyncTask downLoadAsyncTask = <span class="keyword">new</span> DownLoadAsyncTask();</div><div class="line"> downLoadAsyncTask.execute();</div></pre></td></tr></table></figure>
+<p><strong>使用 AsyncTask  的注意事项：</strong></p>
+<p>① 异步任务的实例必须在UI线程中创建，即AsyncTask对象必须在UI线程中创建。</p>
+<p>② execute(Params… params)方法必须在UI线程中调用。</p>
+<p>③ 不要手动调用onPreExecute()，doInBackground(Params… params)，onProgressUpdate(Progress… values)，onPostExecute(Result result)这几个方法。</p>
+<p>④ 不能在doInBackground(Params… params)中更改UI组件的信息。</p>
+<p>⑤ 一个任务实例只能执行一次，如果执行第二次将会抛出异常。</p>
+</li>
+<li><p>手写一个创建 sql 的过程，并附带一个些基本增删改查操作。</p>
+<p>Android 本身并不提供关于数据库的内容，所以一般是使用轻量级的 sqlite 数据库。</p>
+<p>创建数据库时候，需要继承于 SQLiteOpenHelper  这个类进行数据库的创建。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySqlHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String dbName = <span class="string">"test.sql"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MySqlHelper</span><span class="params">(Context context, String name, SQLiteDatabase.CursorFactory factory, <span class="keyword">int</span> version)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, name, factory, version);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MySqlHelper</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="comment">//context :上下文   ， name：数据库文件的名称    factory：用来创建cursor对象，默认为null</span></div><div class="line">        <span class="comment">//version:数据库的版本号，从1开始，如果发生改变，onUpgrade方法将会调用,4.0之后只能升不能将</span></div><div class="line">        <span class="comment">//这里注意，如果想要指定路径 sql 文件，比如 assets 或者其他目录，需要输入 sql 文件的完整目录名。同时，需要检测文件是否存在，如果不存在，则需要手动创建</span></div><div class="line">        <span class="comment">//默认创建目录是在 /data/data/database/... 目录下 ,这个权限在 android 6.0 后，非 root 手机无法直接访问目录</span></div><div class="line">        <span class="keyword">super</span>(context, dbName, <span class="keyword">null</span>, <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOpen</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onOpen(db);</div><div class="line">        <span class="comment">//通过SQLiteDatabase执行一个创建表的sql语句</span></div><div class="line">        db.execSQL(<span class="string">"create table userinfo (_id integer primary key autoincrement,name varchar(20))"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//oncreate方法是数据库第一次创建的时候会被调用;  特别适合做表结构的初始化,需要执行sql语句；SQLiteDatabase db可以用来执行sql语句</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</div><div class="line">        <span class="comment">//添加一个phone字段</span></div><div class="line">        db.execSQL(<span class="string">"alter table userinfo add phone varchar(11)"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而在主 java 程序中，直接调用该类就可以创建一个 sql。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//比如在 onCreate 方法中加入</span></div><div class="line">MySqlHelper mySqlHelper = <span class="keyword">new</span> MySqlHelper(<span class="keyword">this</span>);</div><div class="line">SQLiteDatabase database = mySqlHelper.getReadableDatabase();</div></pre></td></tr></table></figure>
+<p>然后后续所有的数据库操作都是通过 database 这个类进行，例如增删改查等等。</p>
+<p>而这些基础操作，都需要基于 Cursor 类来进行处理，个人觉得很麻烦，所有后面都采用了 GreenDao 这个ORM。关于 Curor 可以看看<a href="https://blog.csdn.net/chaoyu168/article/details/50260829" target="_blank" rel="external">该博客</a> 。</p>
+</li>
+<li><p>GreenDao 的原理</p>
+<p>这个 ORM 简单几句完全说不清，本人处于只可意会不可言传这种状态。具体参考下面的几个博文：</p>
+<p><a href="https://blog.csdn.net/u010687392/article/details/48465315" target="_blank" rel="external">https://blog.csdn.net/u010687392/article/details/48465315</a></p>
+<p><a href="https://www.jianshu.com/p/0d3cbe6278fb" target="_blank" rel="external">https://www.jianshu.com/p/0d3cbe6278fb</a></p>
+<p>我觉得里面说的非常详细了，其实 GreenDao 其实就是基于 Android 原生的 DataBase 进行一个封装。直接对象关系映射，这个是最简单方便的一个操作，并且简化了数据库的增删改查操作。</p>
+</li>
+</ol>
+<p>####暂时就更新这么多，后续看到有其他内容，会一一加上</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/27/android之sophix热修复/" rel="next" title="android之sophix热修复">
+                <i class="fa fa-chevron-left"></i> android之sophix热修复
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+           
+     <div class="comments" id="comments">
+       
+            <div id="uyan_frame"></div>
+       
+     </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="chicbian" />
+          <p class="site-author-name" itemprop="name">chicbian</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Andorid-面试总结"><span class="nav-number">1.</span> <span class="nav-text">Andorid 面试总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chicbian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+    
+      
+    
+
+   
+        <!-- UY BEGIN -->
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2130903"></script>
+        <!-- UY END -->
+    
+  
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
