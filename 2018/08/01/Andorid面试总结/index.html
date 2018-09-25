@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
+<meta name="description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps: 其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Andorid面试总结">
 <meta property="og:url" content="http://chicbian.com/2018/08/01/Andorid面试总结/index.html">
 <meta property="og:site_name" content="ChicBian的博客">
-<meta property="og:description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
-<meta property="og:updated_time" content="2018-08-20T07:32:57.095Z">
+<meta property="og:description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps: 其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
+<meta property="og:updated_time" content="2018-09-25T01:56:21.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Andorid面试总结">
-<meta name="twitter:description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
+<meta name="twitter:description" content="Andorid 面试总结 给出我面试 Andorid 中被问的问题，以及解决方案。   Activity 的生命周期 onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory()   ListView 的优化方案 ps: 其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。">
 
 
 
@@ -369,7 +369,7 @@
 <p>onCreate() — onStart() — onResume() — onPause() — onStop() — onDestory() </p>
 </li>
 <li><p>ListView 的优化方案</p>
-<p>ps:其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。</p>
+<p>ps: 其实我建议采用 RecycleView 来代替 ListView ,后面说会 两者之间的区别。</p>
 <ol>
 <li><p>converView 复用</p>
 <p>利用好 convertView 来重用 View，切忌每次 getView() 都新建。ListView 的核心原理就是重用 View，如果重用 view 不改变宽高，重用View可以减少重新分配缓存造成的内存频繁分配/回收。</p>
@@ -396,8 +396,7 @@
 </ol>
 </li>
 <li><p>Webview  和 js 的交互</p>
-<ul>
-<li><p>Android 调用 js 方法：</p>
+<p><strong>Android 调用 js 方法：</strong></p>
 <ol>
 <li><p>webView.loadUrl(url),url 可以是一个地址，也可以是一个类似于 javascript:retrunpage() 这样一个定义在 js 内部的方法，都可以达到调用 js 的效果，简单便捷。但是此方法效率比较低，获取返回值比较困难。</p>
 </li>
@@ -409,8 +408,7 @@
 </blockquote>
 </li>
 </ol>
-</li>
-<li><p>Js 调用 Andorid 代码</p>
+<p><strong>Js 调用 Andorid 代码</strong></p>
 <ol>
 <li><p>通过 webview.addJavascriptInterface(new JSHook(), “androidApp”);</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> webview.addJavascriptInterface(<span class="keyword">new</span> JSHook(), <span class="string">"androidApp"</span>);</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JSHook</span> </span>&#123;</div><div class="line">        <span class="meta">@JavascriptInterface</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setResult</span><span class="params">(String result)</span> </span>&#123;</div><div class="line">            <span class="comment">//得到参数</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
@@ -428,17 +426,13 @@
 <p><em>特点：</em></p>
 <pre><code>1. 该方法不存在 第一种方法中的 漏洞问题
 2. 但是 js 想要获取 Android 返回值，只能通过 Andorid 再调用 js 代码。
-</code></pre><ol>
+</code></pre></li>
 <li><p>Android通过 <code>WebChromeClient</code> 的<code>onJsAlert()</code>、<code>onJsConfirm()</code>、<code>onJsPrompt（）</code>方法回调分别拦截JS对话框 。</p>
 <blockquote>
 <p>整个 Android 和 js 的交互大致就是这几种，详情可以看该<a href="https://blog.csdn.net/carson_ho/article/details/64904691/" target="_blank" rel="external">博文</a>。</p>
 </blockquote>
 </li>
 </ol>
-</li>
-</ol>
-</li>
-</ul>
 </li>
 <li><p>Andorid 多线程的线程锁</p>
 <p>Andorid 线程锁大致分为 2 种，同步机制关键字  synchronized 和 显示锁 Lock。</p>
